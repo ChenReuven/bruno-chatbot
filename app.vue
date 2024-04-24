@@ -9,15 +9,19 @@
     >
       <div class="bg-white border border-slate-200 p-6 rounded">   
 
-        <Start />
+        <Start v-if="!isChatting"/>
 
-        <Chat />
+        <Chat v-else/>
         
       </div>
     </div>
   </div>
 </div>
 </template>
+
+<script setup lang="ts">
+  const isChatting = useState("isChatting", () => false);
+</script>
 
 <style>
 html,
