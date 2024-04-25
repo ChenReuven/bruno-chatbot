@@ -28,7 +28,26 @@
 
 <script setup lang="ts">
     const newMessage = ref('');
+    const messages = useMessages();
+    const { customerInitials } = useCustomer();
+
     const handleSubmit = () => {
+        
+        messages.value.push({
+            name: customerInitials.value,
+            message: newMessage.value,
+            isBruno: false,
+            timestamp: new Date().toLocaleDateString([])
+        })
+        console.log(messages.value)
+
         newMessage.value = '';
+
+        messages.value.push({
+            name: "Bruno",
+            message: newMessage.value,
+            isBruno: true,
+            timestamp: new Date().toLocaleDateString([])
+        })
     }
 </script>
