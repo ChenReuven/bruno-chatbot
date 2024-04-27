@@ -36,7 +36,18 @@
     const isChatting = useIsChatting();
     const {customerName, hasNameError} = useCustomer();
 
-    const handleSubmit = () => {
-        isChatting.value = true;
+    const thread = useCookie('thread-id');
+    const run = useCookie('run-id');
+
+    const handleSubmit = async () => {
+      const response = await $fetch('/api/thread', {
+        query: {
+          customerName: customerName.value
+        }
+      });
+
+      thread.value = response.thread;
+      run.value = response.run;
+      isChatting.value = true;
     }
 </script>

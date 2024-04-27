@@ -64,4 +64,23 @@
 const messages = useMessages();
 const {customerInitials} = useCustomer();
 
+await useFetch("/api/message", {
+  lazy: true,
+  onResponse: ({response}) => {
+    const content = response?._data.data[0].content[0]; // Get the first message
+    console.log("content = ", content);
+
+    if (content?.type == "text") {
+      messages.value.push({
+        name: "Bruno",
+        message: content.text.value,
+        isBruno: true,
+        timestamp: new Date().toLocaleDateString([])
+      });
+    }
+  }
+});
+
+
+
 </script>
