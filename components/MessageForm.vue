@@ -44,16 +44,28 @@
         })
         console.log(messages.value)
 
+        const userMessage = newMessage.value;
         newMessage.value = '';
 
 
-        const parsedMessage = await marked.parse(dompurify.sanitize(newMessage.value));
+        const response = await $fetch("/api/message", {
+          method: "POST",
+          query: {
+              message: userMessage
+          }
+        });
 
+        console.log(response);
+        const content = (response as any)?._data?.data[0].content[0];
+        if (content != "text") {
+          return;
+        }
+        const parsedMessage = await marked.parse(dompurify.sanitize(content.text.value));
         messages.value.push({
-            name: "Bruno",
-            message: parsedMessage,
-            isBruno: true,
-            timestamp: new Date().toLocaleDateString([])
+          name: "Bruno",
+          message: parsedMessage,
+          isBruno: true,
+          timestamp: new Date().toLocaleDateString([])
         })
     }
 </script>
